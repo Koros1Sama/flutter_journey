@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 
 /* =============================================
    Flutter Journey — Phase 0: The Engine Room
-   Interactive Learning Platform
+   Interactive Learning Platform (v2 - Deep Explanations)
    ============================================= */
 
 // --- Sidebar Component ---
@@ -17,6 +17,8 @@ function Sidebar({ activeSection, onNavigate }) {
 
   const sections = [
     { id: 'intro', label: 'لماذا هذه المرحلة؟', icon: '📌' },
+    { id: 'what-is-framework', label: 'وش يعني فريم وورك؟', icon: '🧰' },
+    { id: 'multiplatform', label: 'كيف تشتغل كل منصة؟', icon: '🌍' },
     { id: 'comparison', label: 'المقارنة مع الآخرين', icon: '⚔️' },
     { id: 'architecture', label: 'الطبقات الثلاث', icon: '🏛️' },
     { id: 'compilation', label: 'كيف يُترجم الكود', icon: '⚡' },
@@ -89,14 +91,17 @@ function ArchitectureDiagram() {
           </p>
           <p>تحتوي على:</p>
           <ul>
-            <li><strong>Widgets</strong> — المكعبات اللي تبني بها الواجهة (زي LEGO)</li>
-            <li><strong>Rendering</strong> — النظام اللي يحسب الأحجام والمواقع</li>
-            <li><strong>Animation</strong> — محرك الحركات والتأثيرات</li>
-            <li><strong>Gestures</strong> — نظام اللمس والتفاعل</li>
-            <li><strong>Material / Cupertino</strong> — تصاميم جاهزة لـ Android و iOS</li>
+            <li><strong>Widgets</strong> — المكعبات اللي تبني بها الواجهة (زي قطع LEGO). كل شي على الشاشة هو Widget: زر، نص، صورة، حتى المسافة بين شيئين!</li>
+            <li><strong>Rendering</strong> — النظام اللي يحسب أحجام ومواقع كل شي على الشاشة</li>
+            <li><strong>Animation</strong> — محرك الحركات والتأثيرات (مثل لما زر يتحرك بسلاسة)</li>
+            <li><strong>Gestures</strong> — نظام اللمس والتفاعل (يعرف الفرق بين ضغطة وسحب وتكبير)</li>
+            <li><strong>Material / Cupertino</strong> — مكتبات تصاميم جاهزة (Material لتصميم Google، Cupertino لتصميم Apple)</li>
           </ul>
           <p>
-            <strong>الفكرة المهمة:</strong> كل Widget ما هو إلا "وصف" لما تريد رؤيته. هو <em>ما يرسم نفسه</em>. هو بس يقول: "أنا صندوق أحمر بعرض 100". والطبقة اللي تحته هي اللي ترسم فعلاً.
+            <strong>الفكرة المهمة:</strong> كل Widget ما هو إلا "وصف". هو ما يرسم نفسه. هو بس يقول: "أنا زر أزرق مكتوب عليه 'ارسل'". الطبقة اللي تحته (Engine) هي اللي ترسم فعلاً.
+          </p>
+          <p style={{ color: 'var(--accent-purple)', fontWeight: 600 }}>
+            🔗 عندك خلفية C++. تخيل إن Widget مثل struct يوصف الشكل، وفيه نظام ثاني ياخذ هالـ struct ويرسمه.
           </p>
         </>
       )
@@ -111,13 +116,13 @@ function ArchitectureDiagram() {
           </p>
           <p>يحتوي على:</p>
           <ul>
-            <li><strong>Skia / Impeller</strong> — محرك الرسم. مثل كرت الشاشة الافتراضي، يرسم كل بكسل على الشاشة</li>
-            <li><strong>Dart Runtime</strong> — البيئة اللي تشغل كود Dart الخاص بك</li>
-            <li><strong>Text Layout</strong> — محرك تنسيق النصوص</li>
-            <li><strong>Platform Channels</strong> — "الجسر" للتواصل مع النظام الأصلي</li>
+            <li><strong>Skia / Impeller</strong> — محرك الرسم. هذا هو "الرسّام" اللي يرسم كل بكسل على الشاشة. مثل كرت الشاشة بس برمجياً</li>
+            <li><strong>Dart Runtime</strong> — البيئة اللي تشغل كود Dart الخاص بك (مثل ما Python عندها interpreter)</li>
+            <li><strong>Text Layout</strong> — محرك تنسيق النصوص (يعرف كيف يرتب الحروف العربية من اليمين لليسار)</li>
+            <li><strong>Platform Channels</strong> — "الجسر" اللي يسمح لكودك يتكلم مع النظام الأصلي (مثلاً يطلب من Android يفتح الكاميرا)</li>
           </ul>
           <p>
-            <strong>لماذا هذا مهم؟</strong> لأن Flutter ما يستعير أزرار Android ولا أزرار iOS. هو <em>يرسم كل شيء بنفسه</em> بكسل ببكسل عبر Skia/Impeller. هذا يعني تطبيقك يظهر <strong>متطابق 100%</strong> على كل منصة.
+            <strong>ليش هذا مهم؟</strong> لأن Flutter ما يستعير أزرار Android أو iOS. هو يرسم كل شي بنفسه بكسل ببكسل. يعني لو رسمت زر أزرق، هالزر يطلع متطابق 100% على Android و iOS و Web و Windows. ما فيه اختلاف.
           </p>
         </>
       )
@@ -128,17 +133,19 @@ function ArchitectureDiagram() {
       content: (
         <>
           <p>
-            <strong>هذي الطبقة اللي تربط Flutter بالنظام الفعلي</strong> (Android, iOS, Windows, Web...).
+            <strong>هذي الطبقة اللي تربط Flutter بالنظام الفعلي</strong> (Android, iOS, Windows, macOS, Linux, Web).
+          </p>
+          <p>
+            <strong>كل منصة عندها Embedder خاص فيها.</strong> يعني فيه embedder لـ Android (مكتوب بـ Java/Kotlin)، وواحد لـ iOS (مكتوب بـ Swift)، وواحد لـ Web (مكتوب بـ JavaScript)، وهكذا.
           </p>
           <p>مسؤولة عن:</p>
           <ul>
-            <li><strong>إنشاء النافذة/Surface</strong> — تقول للنظام "عطني مساحة أرسم عليها"</li>
+            <li><strong>إنشاء النافذة/Surface</strong> — تقول للنظام "عطني مساحة فاضية أرسم عليها"</li>
             <li><strong>إدخال المستخدم</strong> — تستقبل اللمسات ولوحة المفاتيح وتمررها لـ Flutter</li>
-            <li><strong>Event Loop</strong> — حلقة الأحداث اللي تدير التفاعل</li>
-            <li><strong>Platform-specific APIs</strong> — الكاميرا، GPS، البطارية... إلخ</li>
+            <li><strong>Platform APIs</strong> — الكاميرا، GPS، البطارية، الإشعارات... كل شي يعتمد على الجهاز</li>
           </ul>
           <p>
-            <strong>فكر فيها كذا:</strong> Flutter مثل فنان. Embedder هو اللي يجهز له الكنفس (اللوحة) والألوان. الفنان ما يهتم هل اللوحة على حائط في بيت (Android) أو معرض (iOS) — هو يرسم بنفس الطريقة.
+            <strong>تشبيه:</strong> Flutter مثل فنان محترف. Embedder هو اللي يجهز له الكنفس (اللوحة) والألوان. الفنان ما يهتم هل اللوحة معلقة في بيت (Android) أو معرض (iOS) أو على الإنترنت (Web) — هو يرسم بنفس الطريقة بالضبط.
           </p>
         </>
       )
@@ -146,7 +153,7 @@ function ArchitectureDiagram() {
   }
 
   return (
-    <div className="architecture-diagram" id="architecture">
+    <div className="architecture-diagram">
       <div className="diagram-title">🏛️ هيكلية Flutter — اضغط على كل طبقة لاستكشافها</div>
       <div className="diagram-hint">كل طبقة مسؤولة عن شيء محدد. اضغط لتعرف التفاصيل ↓</div>
 
@@ -218,7 +225,7 @@ function CompilationFlow() {
   const current = flows[mode]
 
   return (
-    <div className="compilation-flow" id="compilation">
+    <div className="compilation-flow">
       <div className="diagram-title">⚡ كيف يُترجم كود Dart؟</div>
       <div className="diagram-hint">
         Dart تستخدم نظامين للترجمة — واحد للتطوير وواحد للإنتاج. اضغط للمقارنة.
@@ -241,33 +248,33 @@ function CompilationFlow() {
 
       <div className="flow-steps" key={mode}>
         {current.steps.map((step, i) => (
-          <>
-            <div className="flow-step fade-in" key={`step-${i}`} style={{ animationDelay: `${i * 0.1}s` }}>
+          <div key={`step-${mode}-${i}`} style={{ display: 'contents' }}>
+            <div className="flow-step fade-in" style={{ animationDelay: `${i * 0.1}s` }}>
               <div className="flow-step-icon">{step.icon}</div>
               <div className="flow-step-label">{step.label}</div>
               <div className="flow-step-desc">{step.desc}</div>
             </div>
             {i < current.steps.length - 1 && (
-              <div className="flow-arrow" key={`arrow-${i}`}>←</div>
+              <div className="flow-arrow">←</div>
             )}
-          </>
+          </div>
         ))}
       </div>
 
-      <div className="analogy-box" style={{ marginTop: '24px' }}>
-        <div className="analogy-label">تشبيه للفهم</div>
+    <div className="analogy-box" style={{ marginTop: '24px' }}>
+        <div className="analogy-label">ربط بخبرتك (C++ و Python)</div>
         <div className="analogy-text">
           {mode === 'jit' ? (
             <>
-              <strong>JIT مثل مترجم فوري:</strong> يترجم كل جملة لحظة ما تنطقها. مريح لأنك تقدر تعدل وتسمع النتيجة فوراً (Hot Reload). لكنه أبطأ لأنه يترجم كل مرة.
+              <strong>JIT (Just-In-Time) قريب جداً من طريقة عمل Python:</strong> الكود يُترجم ويُنفذ أثناء التشغيل داخل بيئة افتراضية (VM).
               <br /><br />
-              <strong>لماذا هذا مهم لك؟</strong> عشان كذا لما تكتب كود وتحفظ، التطبيق يتحدث فوراً بدون ما يعيد التشغيل. هذا يختصر وقت التطوير بشكل جنوني.
+              <strong>ليش هذا سحر في تطوير Flutter؟</strong> لأنه يعطيك ميزة <strong>Hot Reload</strong>. لما تعدل الكود وبتسوي حفظ، الـ VM حق Dart فقط يحقن الكود الجديد بدون ما يعيد تشغيل التطبيق. النتيجة؟ تشوف تعديلك في جزء من الثانية وتجرب بسرعة جنونية.
             </>
           ) : (
             <>
-              <strong>AOT مثل ترجمة كتاب كامل:</strong> تاخذ وقت أطول في البداية، لكن النتيجة النهائية سريعة جداً لأن كل شيء مترجم مسبقاً وجاهز.
+              <strong>AOT (Ahead-Of-Time) هو بالضبط اللي تسويه في C++:</strong> الكود كامل يُترجم لـ Machine Code أصلي (أصفار ووحايد) موجه لمعمارية جهاز محدد (مثل ARM للآيفون) قبل ما التطبيق يشتغل أصلاً.
               <br /><br />
-              <strong>لماذا هذا مهم لك؟</strong> لما تبني التطبيق النهائي (APK/IPA)، Dart يتحول لكود آلة أصلي. ما فيه VM أو مترجم يبطئ التطبيق. هذا سبب إن تطبيقات Flutter سريعة مثل تطبيقات Native.
+              <strong>ليش هذا مهم للإنتاج؟</strong> لما ترفع تطبيقك للمتجر، ما يكون فيه أي مترجم (VM) يشتغل في الخلفية. تطبيقك ينطلق بأقصى سرعة ممكنة للمعالج، وهذا اللي يخلي Flutter سلس وسريع جداً.
             </>
           )}
         </div>
@@ -302,7 +309,7 @@ function ThreeTrees() {
               القرار الحقيقي يحصل في الشجرة الثانية (Element Tree).
             </p>
             <p style={{ color: 'var(--accent-purple)', fontWeight: 600 }}>
-              🔗 مشابه لمفهوم Virtual DOM في React — بس Flutter يروح أبعد.
+              🔗 فكر فيها مثل ما تعمل struct في C++ وتمررها لدالة رسم — الـ struct نفسه ما يعرف يرسم، بس يوصف البيانات.
             </p>
           </>
         )
@@ -332,7 +339,7 @@ function ThreeTrees() {
               <strong>هنا تفهم ليش Flutter سريع:</strong> ما يعيد رسم الشاشة كاملة. يعيد رسم <em>فقط</em> اللي تغير.
             </p>
             <p style={{ color: 'var(--accent-purple)', fontWeight: 600 }}>
-              🔗 مشابه لمفهوم Diffing Algorithm في React.
+              🔗 تخيل إنك عندك Linked List قديمة وجديدة — Element Tree يمشي عليهم node بـ node ويقارن. اللي تغير يحدثه، واللي ما تغير يتركه.
             </p>
           </>
         )
@@ -371,9 +378,9 @@ function ThreeTrees() {
   }
 
   return (
-    <div id="trees">
+    <div className="section" id="trees">
       <div className="section-header">
-        <div className="section-number">4</div>
+        <div className="section-number">6</div>
         <h3 className="section-title">الأشجار الثلاث — سر سرعة Flutter</h3>
       </div>
 
@@ -385,17 +392,15 @@ function ThreeTrees() {
       </div>
 
       <div className="analogy-box">
-        <div className="analogy-label">تشبيه معماري</div>
+        <div className="analogy-label">ربط بمفاهيم الـ OOP (الكائنات)</div>
         <div className="analogy-text">
-          <strong>تخيل بناء عمارة:</strong>
-          <br />
-          📋 <strong>Widget Tree</strong> = المخطط المعماري على الورق (Blueprint)
-          <br />
-          🔗 <strong>Element Tree</strong> = مدير المشروع اللي يقرر ما يُبنى وما يُهدم
-          <br />
-          🎨 <strong>RenderObject Tree</strong> = العمال اللي يبنون فعلياً على الأرض
+          <strong>عشانك فاهم OOP بـ C++ و Python، الفكرة برمجياً كالتالي:</strong>
           <br /><br />
-          لما المعماري يعدل المخطط (setState)، مدير المشروع ما يهدم العمارة كلها — يقارن المخطط الجديد بالقديم ويعدل <em>فقط</em> اللي تغير.
+          📋 <strong>Widget</strong> = مجرد <code>Immutable Object</code> (كائن ثابت لا يتغير). كأنه <code>struct</code> أو <code>DataClass</code> يحمل فقط بيانات (ألوان، نصوص) ولا يحتوي على أي State تتغير. عشان كذا لو تدمره وتعيد إنشاءه 1000 مرة في الثانية، ما يكلف شي لأنه خفيف جداً.
+          <br /><br />
+          🔗 <strong>Element</strong> = هو الكائن الثقيل <code>Mutable Object</code> الفعلي اللي يمسك الـ State ويدير دورة الحياة (Lifecycle). هذا الكائن يعيش لفترة طويلة، ولما تستدعي <code>setState</code>، هو اللي يشيك على الـ Widget الجديد ويحدث نفسه بدون ما ينحذف من الذاكرة.
+          <br /><br />
+          🎨 <strong>RenderObject</strong> = كائن <code>C++ Object</code> ضخم جداً يتعامل مباشرة مع كرت الشاشة لحساب الـ Pixels بالضبط. الـ Element هو الوحيد اللي يكلم الـ RenderObject ويقول له متى يعيد الرسم.
         </div>
       </div>
 
@@ -439,18 +444,30 @@ function Quiz() {
   const questions = [
     {
       id: 'q1',
-      question: 'لماذا تطبيقات Flutter تظهر متطابقة على Android و iOS؟',
+      question: 'وش يعني "فريم وورك (Framework)"؟',
       options: [
-        'لأن Flutter يستخدم أزرار Android على Android وأزرار iOS على iOS',
-        'لأن Flutter يرسم كل بكسل بنفسه عبر محرك Skia/Impeller — ما يستعير شي من النظام',
-        'لأن Android و iOS متشابهين في التصميم',
-        'لأن Flutter يستخدم WebView',
+        'لغة برمجة جديدة',
+        'صندوق أدوات جاهز يعطيك أدوات ومكتبات تبني بها تطبيقك بدل ما تبدأ من الصفر',
+        'برنامج لتصميم الصور',
+        'نظام تشغيل للجوال',
       ],
       correct: 1,
-      explanation: 'بالضبط! Flutter يمتلك محرك رسم خاص (Skia/Impeller) يرسم كل شيء بنفسه. ما يعتمد على أي عنصر واجهة من النظام الأصلي. هذا يعني تحكم كامل بالمظهر على كل منصة.'
+      explanation: 'بالضبط! الفريم وورك هو صندوق أدوات جاهز. Flutter يعطيك أزرار، قوائم، أنيميشن، ونظام كامل جاهز — أنت بس تركبهم مع بعض وتضيف المنطق الخاص بتطبيقك.'
     },
     {
       id: 'q2',
+      question: 'كيف Flutter يقدر يشتغل على Android و iOS و Web بنفس الكود؟',
+      options: [
+        'يترجم كودك لكود Java لـ Android و Swift لـ iOS',
+        'يستخدم أزرار النظام الأصلية على كل منصة',
+        'عنده محرك رسم خاص (Skia/Impeller) يرسم كل شي بنفسه — بس يحتاج "نافذة" من كل نظام',
+        'يشتغل داخل متصفح ويب على كل الأنظمة',
+      ],
+      correct: 2,
+      explanation: 'صح! Flutter ما يترجم كودك لـ Java أو Swift. هو يطلب من كل نظام مساحة رسم فاضية (مثل كنفس بيضا)، وبعدين يرسم التطبيق كامل بنفسه بكسل ببكسل باستخدام محرك Skia/Impeller. عشان كذا التطبيق يطلع متطابق على كل منصة.'
+    },
+    {
+      id: 'q3',
       question: 'ما الفرق بين JIT و AOT في Dart؟',
       options: [
         'JIT أسرع من AOT دائماً',
@@ -459,19 +476,31 @@ function Quiz() {
         'ما فيه فرق — كلهم نفس الشي',
       ],
       correct: 1,
-      explanation: 'صحيح! JIT (Just-In-Time) يترجم أثناء التشغيل ويتيح Hot Reload للتطوير السريع. AOT (Ahead-Of-Time) يترجم مسبقاً لكود آلة أصلي للأداء العالي في الإنتاج. Dart صممت نفسها لتدعم الاثنين!'
+      explanation: 'صح! JIT يترجم أثناء التشغيل ويتيح Hot Reload (تعديل ونتيجة فورية). AOT يترجم مسبقاً لكود آلة أصلي وينتج تطبيق سريع جداً للمستخدم النهائي.'
     },
     {
-      id: 'q3',
-      question: 'لما تستدعي setState()، ماذا يحدث بالضبط؟',
+      id: 'q4',
+      question: 'لما تستدعي setState()، وش بالضبط يحصل؟',
       options: [
-        'Flutter يعيد رسم الشاشة بالكامل',
+        'Flutter يعيد رسم الشاشة بالكامل من الصفر',
         'Flutter يبني Widget Tree جديدة، ثم Element Tree يقارنها بالقديمة ويحدث فقط ما تغير',
-        'Flutter يمسح كل شيء ويبدأ من الصفر',
-        'ما يحصل شيء لأن Widgets immutable',
+        'Flutter يمسح كل شيء ويبدأ من جديد',
+        'ما يحصل شيء',
       ],
       correct: 1,
-      explanation: 'ممتاز! هذا بالضبط السر. Widgets رخيصة (خفيفة) فـ Flutter يبنيها من جديد بدون مشكلة. لكن Element Tree هو اللي يقارن (diff) ويقرر ما يحتاج تحديث فعلاً في RenderObject Tree. مثل مدير المشروع اللي يقارن المخطط الجديد بالقديم.'
+      explanation: 'ممتاز! هذا السر. Widgets خفيفة فـ Flutter يبنيها من جديد بدون مشكلة. لكن Element Tree هو اللي يقارن ويقرر وش يحتاج تحديث فعلاً — مثل ما تقارن Linked List قديمة بجديدة node بـ node.'
+    },
+    {
+      id: 'q5',
+      question: 'في C++ تكتب: button.setColor(red) — تأمر الكمبيوتر مباشرة. في Flutter تكتب: Container(color: red) — توصف الحالة النهائية. وش الفرق بين الأسلوبين؟',
+      options: [
+        'ما فيه فرق حقيقي، بس طريقة كتابة مختلفة',
+        'الأول أمري (Imperative) — أنت تقول "غيّر هذا". الثاني تصريحي (Declarative) — أنت تقول "أبي النتيجة كذا" و Flutter يقرر كيف يغيّر.',
+        'Flutter ما يدعم الأسلوب الأمري أبداً',
+        'الأسلوب التصريحي أبطأ دائماً',
+      ],
+      correct: 1,
+      explanation: 'هذا أهم فرق ذهني بيواجهك! في C++ أنت تتحكم بكل خطوة (Imperative). في Flutter أنت توصف الحالة النهائية (Declarative) و Flutter يتكفل يحسب الفرق ويحدث الشاشة. هذا التحول من "كيف أسوي" إلى "وش أبي" هو جوهر فلسفة Flutter.'
     },
   ]
 
@@ -481,7 +510,7 @@ function Quiz() {
   }
 
   return (
-    <div id="quiz">
+    <div className="section" id="quiz">
       <div className="section-header">
         <div className="section-number">🧪</div>
         <h3 className="section-title">اختبر فهمك</h3>
@@ -557,12 +586,11 @@ export default function App() {
   const [activeSection, setActiveSection] = useState('intro')
   const isScrollingRef = useRef(false)
 
-  // Scroll Spy — automatically track which section is visible
+  // Scroll Spy
   useEffect(() => {
-    const sectionIds = ['intro', 'comparison', 'architecture', 'compilation', 'trees', 'quiz']
+    const sectionIds = ['intro', 'what-is-framework', 'multiplatform', 'comparison', 'architecture', 'compilation', 'trees', 'quiz']
     const observers = []
 
-    // Small delay to ensure DOM is ready
     const timer = setTimeout(() => {
       sectionIds.forEach(id => {
         const el = document.getElementById(id)
@@ -571,16 +599,14 @@ export default function App() {
         const observer = new IntersectionObserver(
           (entries) => {
             entries.forEach(entry => {
-              // Only update if user is scrolling naturally (not clicking nav)
               if (entry.isIntersecting && !isScrollingRef.current) {
                 setActiveSection(id)
               }
             })
           },
           {
-            // Trigger when section enters the top 30% of viewport
-            rootMargin: '-10% 0px -60% 0px',
-            threshold: 0.1,
+            rootMargin: '-10% 0px -50% 0px',
+            threshold: 0,
           }
         )
 
@@ -596,7 +622,6 @@ export default function App() {
   }, [])
 
   const scrollTo = (id) => {
-    // Temporarily disable scroll spy to avoid flickering during smooth scroll
     isScrollingRef.current = true
     setActiveSection(id)
 
@@ -605,7 +630,6 @@ export default function App() {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
 
-    // Re-enable scroll spy after animation completes
     setTimeout(() => {
       isScrollingRef.current = false
     }, 800)
@@ -616,7 +640,7 @@ export default function App() {
       <Sidebar activeSection={activeSection} onNavigate={scrollTo} />
 
       <main className="main-content">
-        {/* --- Hero --- */}
+        {/* === HERO === */}
         <div className="phase-hero" id="intro">
           <div className="phase-badge">⚙️ المرحلة 0</div>
           <h2>المحرك — كيف يعمل Flutter من الداخل</h2>
@@ -624,22 +648,315 @@ export default function App() {
             قبل ما تكتب سطر كود واحد، لازم تفهم <strong>كيف يعمل النظام</strong> اللي تبني عليه.
             لأن عقلك يرفض يحفظ بدون ما يفهم الأساس — ونحن نحترم هالطريقة.
             <br /><br />
-            في هذه المرحلة، راح تفهم <strong>لماذا</strong> Flutter موجود، <strong>كيف</strong> يختلف عن غيره،
-            و<strong>ما</strong> اللي يحصل من لحظة ما تكتب الكود إلى لحظة ما يظهر على الشاشة.
+            في هذه المرحلة، راح تفهم:
           </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '1.2em' }}>🧰</span>
+              <span>وش يعني "فريم وورك" أصلاً ووش Flutter بالضبط</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '1.2em' }}>🌍</span>
+              <span>كيف كود واحد يشتغل على Android و iOS و Web و Windows</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '1.2em' }}>⚔️</span>
+              <span>وش يميزه عن البدائل الثانية</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '1.2em' }}>🏛️</span>
+              <span>كيف مبني من الداخل — الطبقات والأشجار</span>
+            </div>
+          </div>
         </div>
 
-        {/* --- Section 1: Why Flutter is Different --- */}
-        <div className="section" id="comparison">
+        {/* === SECTION 1: What is a Framework === */}
+        <div className="section" id="what-is-framework">
           <div className="section-header">
             <div className="section-number">1</div>
-            <h3 className="section-title">ليش Flutter مختلف؟</h3>
+            <h3 className="section-title">وش يعني "فريم وورك (Framework)"؟</h3>
           </div>
 
           <div className="section-content">
             <p>
-              قبل ما نفهم Flutter، لازم نفهم <strong>المشكلة اللي جاء يحلها</strong>.
-              فيه 3 طرق لبناء تطبيقات الجوال. كل وحدة لها فلسفة مختلفة:
+              قبل ما نتكلم عن Flutter، لازم نفهم <strong>وش يعني فريم وورك أصلاً</strong>. لو ما فهمت هالمفهوم، كل شي بعده بيكون غامض.
+            </p>
+          </div>
+
+          <div className="analogy-box">
+            <div className="analogy-label">تشبيه بسيط</div>
+            <div className="analogy-text">
+              <strong>تخيل إنك تبي تبني بيت.</strong> عندك خيارين:
+              <br /><br />
+              <strong>الخيار 1:</strong> تروح الصحراء وتبدأ من الصفر — تصنع الطوب بنفسك، تصنع الأسمنت، تصمم كل شي. هذا = البرمجة بدون فريم وورك.
+              <br /><br />
+              <strong>الخيار 2:</strong> تروح مصنع يعطيك طوب جاهز، أبواب جاهزة، نوافذ جاهزة، أدوات سباكة وكهرباء. أنت <strong>تركبهم</strong> بالطريقة اللي تبي وتضيف لمساتك. هذا = البرمجة بفريم وورك.
+              <br /><br />
+              <strong>الفريم وورك = صندوق أدوات جاهز</strong> يوفر لك العناصر الأساسية عشان تركز على بناء تطبيقك بدل ما تعيد اختراع العجلة.
+            </div>
+          </div>
+
+          <div className="section-content">
+            <p>
+              <strong>خلنا نأخذ مثال حقيقي من لغات مثل (C++ أو Python):</strong>
+            </p>
+            <p>
+              تخيل لو طلب منك تسوي تطبيق فيه <strong>زر أزرق في نص الشاشة، ولما تضغطه يطبع "مرحباً"</strong>.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '16px', margin: '24px 0' }}>
+            <div className="card card-accent-orange">
+              <div className="card-title">بدون فريم وورك (C++ / Python)</div>
+              <div className="card-body">
+                <p>عشان ترسم زر بنفسك، لازم تكتب مئات السطور اللي تتعامل مع كرت الشاشة (Graphics API) ونظام التشغيل:</p>
+                <div dir="ltr" style={{ background: '#1e1e1e', padding: '12px', borderRadius: '4px', fontSize: '0.85em', color: '#d4d4d4', marginTop: '8px', overflowX: 'auto', textAlign: 'left' }}>
+<pre style={{ margin: 0, fontFamily: 'monospace' }}>{`// 1. افتح نافذة من نظام التشغيل
+window = system.createWindow(800, 600)
+
+// 2. مستمع للأحداث الدائمة (Game Loop)
+while (window.isOpen) {
+  event = window.pollEvent()
+  
+  // 3. احسب بالبكسل لو الماوس جوا المربع!
+  if (event.type == MOUSE_CLICK) {
+    if (event.x > 100 && event.x < 300) {
+      print("مرحباً")
+    }
+  }
+  
+  // 4. ارسم المربع الأزرق (الزر) يدويا
+  canvas.setColor(Blue)
+  canvas.drawRect(100, 100, 200, 50)
+  canvas.drawText("اضغطني")
+  
+  window.update()
+}`}</pre>
+                </div>
+                <p style={{ marginTop: '12px', color: 'var(--text-secondary)', fontSize: '0.9em' }}>هذا الكود يوضح المعاناة! لازم تدير الحلقات اللانهائية (Loops) وموقع الماوس والرسم بنفسك بكسل ببكسل.</p>
+              </div>
+            </div>
+
+            <div className="card card-accent-blue">
+              <div className="card-title">مع فريم وورك (Flutter)</div>
+              <div className="card-body">
+                <p>الفريم وورك كتب كل الكود المعقد هذا لك في الخلفية. أنت بس <strong>توصف</strong> وش تبي:</p>
+                <div dir="ltr" style={{ background: '#1e1e1e', padding: '12px', borderRadius: '4px', fontSize: '0.85em', color: '#d4d4d4', marginTop: '8px', overflowX: 'auto', textAlign: 'left' }}>
+<pre style={{ margin: 0, fontFamily: 'monospace' }}>{`// 1. استخدم زر مصمم جاهز
+ElevatedButton(
+  // 2. لون الزر
+  style: ElevatedButton.styleFrom(
+    backgroundColor: Colors.blue,
+  ),
+  
+  // 3. وش يصير لما ينضغط؟
+  onPressed: () {
+    print("مرحباً");
+  },
+  
+  // 4. النص داخله
+  child: Text("اضغطني"),
+)`}</pre>
+                </div>
+                <p style={{ marginTop: '12px', color: 'var(--text-secondary)', fontSize: '0.9em' }}>الفريم وورك يتولى حساب مواقع الماوس، رسم الحواف الدائرية للزر، وإظهار حركة متناسقة عند الضغط.</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="section-content">
+            <p>
+              <strong>يعني Flutter وش هو بالضبط؟</strong>
+            </p>
+            <p>
+              Flutter هو <strong>فريم وورك (صندوق أدوات) متكامل مبني وجاهز</strong>. صنعته شركة Google ليريحك من إعادة اختراع العجلة. يعطيك:
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px', margin: '16px 0' }}>
+            <div className="card card-accent-blue">
+              <div className="card-title">🧱 عناصر واجهة جاهزة</div>
+              <div className="card-body">أزرار، قوائم، صناديق نص، صور، أيقونات — كلها جاهزة تستخدمها مباشرة</div>
+            </div>
+            <div className="card card-accent-purple">
+              <div className="card-title">🎨 نظام تصميم</div>
+              <div className="card-body">ألوان، خطوط، مسافات، أنيميشن — كلها منظمة ومتناسقة</div>
+            </div>
+            <div className="card card-accent-green">
+              <div className="card-title">📱 يشتغل على كل مكان</div>
+              <div className="card-body">تكتب كود مرة وحدة ويشتغل على: Android, iOS, Web, Windows, macOS, Linux</div>
+            </div>
+          </div>
+
+          <div className="key-point">
+            <div className="key-point-label">🎯 الخلاصة</div>
+            <div className="key-point-text">
+              <strong>Flutter = فريم وورك (صندوق أدوات) من Google لبناء تطبيقات.</strong>
+              <br />
+              بدل ما تكتب كود لكل منصة على حدة، تكتب <strong>كود واحد بلغة Dart</strong> و Flutter يتكفل
+              يخليه يشتغل في كل مكان. لكن <em>كيف</em> يسوي هالشي؟ هذا اللي نشرحه في القسم الجاي ↓
+            </div>
+          </div>
+        </div>
+
+        {/* === SECTION 2: How Multi-Platform Works === */}
+        <div className="section" id="multiplatform">
+          <div className="section-header">
+            <div className="section-number">2</div>
+            <h3 className="section-title">كيف Flutter يشتغل على كل المنصات؟</h3>
+          </div>
+
+          <div className="section-content">
+            <p>
+              هذا السؤال الأهم: <strong>كيف كود واحد يشتغل على Android و iOS و Web و Windows؟</strong>
+            </p>
+            <p>
+              أول شيء، خلنا نفهم <strong>المشكلة اللي Flutter يحلها</strong>. بدون Flutter، لو تبي تطبيق يشتغل على كل المنصات، لازم تتعلم لغة مختلفة لكل منصة وتكتب الكود من الصفر لكل وحدة:
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '12px', margin: '16px 0' }}>
+            <div className="card card-accent-green">
+              <div className="card-title">📱 Android</div>
+              <div className="card-body">
+                <strong>اللغة:</strong> Java أو Kotlin
+                <br />
+                <strong>البيئة:</strong> Android Studio
+                <br />
+                <strong>النتيجة:</strong> ملف APK
+              </div>
+            </div>
+            <div className="card card-accent-blue">
+              <div className="card-title">🍎 iOS</div>
+              <div className="card-body">
+                <strong>اللغة:</strong> Swift أو Objective-C
+                <br />
+                <strong>البيئة:</strong> Xcode (يحتاج جهاز Mac)
+                <br />
+                <strong>النتيجة:</strong> ملف IPA
+              </div>
+            </div>
+            <div className="card card-accent-purple">
+              <div className="card-title">🌐 Web</div>
+              <div className="card-body">
+                <strong>اللغة:</strong> JavaScript أو TypeScript
+                <br />
+                <strong>البيئة:</strong> أي محرر + متصفح
+                <br />
+                <strong>النتيجة:</strong> موقع ويب
+              </div>
+            </div>
+            <div className="card card-accent-orange">
+              <div className="card-title">🖥️ Windows</div>
+              <div className="card-body">
+                <strong>اللغة:</strong> C++ أو #C
+                <br />
+                <strong>البيئة:</strong> Visual Studio
+                <br />
+                <strong>النتيجة:</strong> ملف EXE
+              </div>
+            </div>
+          </div>
+
+          <div className="key-point" style={{ marginBottom: '24px' }}>
+            <div className="key-point-label">😱 المشكلة واضحة</div>
+            <div className="key-point-text">
+              <strong>4 لغات مختلفة + 4 بيئات تطوير + 4 أكواد منفصلة</strong> = ضعف الوقت والجهد والأخطاء.
+              <br />
+              Flutter يحل هذا بالكامل: <strong>لغة وحدة (Dart) + كود واحد + نتيجة واحدة تشتغل في كل مكان.</strong>
+              <br /><br />
+              بس السؤال: <em>كيف بالضبط يسوي هالشي؟</em> هنا يجي تشبيه السينما ↓
+            </div>
+          </div>
+
+          <div className="analogy-box">
+            <div className="analogy-label">🎬 تشبيه السينما</div>
+            <div className="analogy-text">
+              <strong>تخيل إنك مخرج فيلم.</strong> عندك فيلم واحد (الكود)، وتبي تعرضه في:
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', margin: '16px 0' }}>
+                <div>🎥 <strong>سينما IMAX</strong> — تمثل Android</div>
+                <div>📺 <strong>تلفزيون البيت</strong> — يمثل iOS</div>
+                <div>💻 <strong>شاشة لابتوب</strong> — تمثل Web</div>
+                <div>🖥️ <strong>شاشة كمبيوتر</strong> — تمثل Windows</div>
+              </div>
+              الفيلم <strong>نفسه ما يتغير</strong>. اللي يتغير هو <strong>جهاز العرض</strong> (البروجكتر) اللي يعرضه على كل شاشة.
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', margin: '16px 0' }}>
+                <div>• <strong>الفيلم</strong> = كودك بلغة Dart + محرك الرسم</div>
+                <div>• <strong>جهاز العرض</strong> = قطعة الـ Embedder المخصصة لكل نظام</div>
+              </div>
+              يعني Flutter يشتغل بنفس المنطق بالضبط.
+            </div>
+          </div>
+
+          <div className="section-content">
+            <h4 style={{ color: 'var(--accent-primary)', marginBottom: '12px' }}>📋 الخطوات بالتفصيل:</h4>
+          </div>
+
+          <div className="card card-accent-blue" style={{ marginBottom: '12px' }}>
+            <div className="card-title">الخطوة 1: أنت تكتب كود Dart واحد</div>
+            <div className="card-body">
+              تكتب كودك <strong>مرة وحدة بس</strong> بلغة Dart. ما تحتاج تعرف Java ولا Swift ولا JavaScript. كودك يوصف الشكل والمنطق: "أبي زر هنا، ولما ينضغط سوِّ كذا".
+            </div>
+          </div>
+
+          <div className="card card-accent-purple" style={{ marginBottom: '12px' }}>
+            <div className="card-title">الخطوة 2: محرك Flutter يرسم كل شي بنفسه</div>
+            <div className="card-body">
+              Flutter ما يطلب من Android يرسم له زر، ولا من iOS يرسم له قائمة. عنده <strong>محرك رسم خاص اسمه Skia/Impeller</strong> (مكتوب بـ C++). هالمحرك يقدر يرسم أي شي: أزرار، نصوص، صور، أنيميشن — كلها <strong>بكسل ببكسل</strong>.
+              <br /><br />
+              يعني Flutter يقول للنظام: <strong>"عطني بس مساحة فاضية على الشاشة، وأنا أرسم كل شي بنفسي"</strong>.
+            </div>
+          </div>
+
+          <div className="card card-accent-green" style={{ marginBottom: '12px' }}>
+            <div className="card-title">الخطوة 3: كل نظام عنده "موصّل" (Embedder)</div>
+            <div className="card-body">
+              كل منصة عندها قطعة كود صغيرة اسمها <strong>Embedder</strong>. هالقطعة مسؤولة عن:
+              <br />
+              • تدير لـ Flutter نافذة (مساحة) يرسم عليها
+              <br />
+              • تمرر لمسات المستخدم (ضغط، سحب) لـ Flutter
+              <br />
+              • توصله بخدمات النظام (كاميرا، GPS، إشعارات)
+              <br /><br />
+              <strong>يعني:</strong>
+              <br />
+              📱 على <strong>Android</strong>: Embedder مكتوب بـ Java/Kotlin — يفتح نافذة Activity ويعطيها لـ Flutter
+              <br />
+              🍎 على <strong>iOS</strong>: Embedder مكتوب بـ Swift — يفتح UIViewController ويعطيها لـ Flutter
+              <br />
+              🌐 على <strong>Web</strong>: Embedder يستخدم Canvas في المتصفح — Flutter يرسم على صفحة الويب
+              <br />
+              🖥️ على <strong>Windows</strong>: Embedder يستخدم Win32 API — يفتح نافذة ويندوز ويعطيها لـ Flutter
+            </div>
+          </div>
+
+          <div className="card card-accent-orange" style={{ marginBottom: '12px' }}>
+            <div className="card-title">النتيجة: تطبيق واحد في كل مكان</div>
+            <div className="card-body">
+              لأن Flutter <strong>يرسم كل بكسل بنفسه</strong>، التطبيق يطلع <strong>متطابق 100%</strong> على كل المنصات. ما فيه اختلاف — نفس الألوان، نفس الأحجام، نفس الحركات. مو مثل React Native اللي يستعير أزرار كل نظام فيطلع شكل مختلف.
+            </div>
+          </div>
+
+          <div className="key-point">
+            <div className="key-point-label">🎯 النقطة الجوهرية</div>
+            <div className="key-point-text">
+              Flutter ما يترجم كودك لـ Java أو Swift. ما يستخدم أزرار النظام. <strong>هو يرسم كل شي بنفسه.</strong>
+              <br />
+              كل اللي يحتاجه من النظام هو <strong>مساحة فاضية يرسم عليها + وصلة للأجهزة (كاميرا، GPS...)</strong>. هذا سر تعدد المنصات.
+            </div>
+          </div>
+        </div>
+
+        {/* === SECTION 3: Comparison === */}
+        <div className="section" id="comparison">
+          <div className="section-header">
+            <div className="section-number">3</div>
+            <h3 className="section-title">Flutter مقابل الطرق الثانية</h3>
+          </div>
+
+          <div className="section-content">
+            <p>
+              الآن بعد ما فهمت كيف Flutter يشتغل، خلنا نقارنه بالطرق الثانية لبناء التطبيقات عشان تفهم <strong>ليش اخترنا Flutter</strong>.
             </p>
           </div>
 
@@ -648,21 +965,29 @@ export default function App() {
               <div className="comparison-icon">📱</div>
               <div className="comparison-name">Native</div>
               <div className="comparison-desc">
-                تكتب كود منفصل لكل منصة. Swift/Kotlin. أقوى أداء، لكن <strong>ضعف العمل</strong>.
+                تكتب كود <strong>منفصل</strong> لكل منصة. Java/Kotlin لـ Android، Swift لـ iOS. <strong>كل تطبيق كأنه مشروع مستقل.</strong>
               </div>
-              <div className="comparison-tag tag-fast">أداء ممتاز</div>
-              <br />
+              <div style={{ marginTop: '12px', fontSize: '0.85em', color: 'var(--text-secondary)' }}>
+                ✅ أفضل أداء + وصول كامل لخدمات النظام
+                <br />
+                ❌ تكتب الكود مرتين + فريقين مختلفين
+              </div>
+              <div className="comparison-tag tag-fast" style={{ marginTop: '8px' }}>أداء ممتاز</div>
               <div className="comparison-tag tag-slow" style={{ marginTop: '4px' }}>كود مكرر ×2</div>
             </div>
 
             <div className="comparison-card webview">
-              <div className="comparison-icon">🌐</div>
-              <div className="comparison-name">WebView / Bridge</div>
+              <div className="comparison-icon">🌉</div>
+              <div className="comparison-name">Bridge — React Native</div>
               <div className="comparison-desc">
-                كود واحد (React Native / Cordova). يستعير عناصر الواجهة من النظام عبر "جسر".
+                تكتب كود واحد بـ JavaScript. التطبيق يرسل أوامر <strong>عبر جسر (Bridge)</strong> للنظام: "ارسم لي زر Android" أو "ارسم لي زر iOS".
               </div>
-              <div className="comparison-tag tag-medium">كود واحد</div>
-              <br />
+              <div style={{ marginTop: '12px', fontSize: '0.85em', color: 'var(--text-secondary)' }}>
+                ✅ كود واحد + يستخدم JavaScript المشهورة
+                <br />
+                ❌ الجسر يبطئ الأداء + الشكل يختلف بين المنصات
+              </div>
+              <div className="comparison-tag tag-medium" style={{ marginTop: '8px' }}>كود واحد</div>
               <div className="comparison-tag tag-slow" style={{ marginTop: '4px' }}>الجسر يبطئ</div>
             </div>
 
@@ -670,34 +995,41 @@ export default function App() {
               <div className="comparison-icon">🦋</div>
               <div className="comparison-name">Flutter</div>
               <div className="comparison-desc">
-                كود واحد + <strong>محرك رسم خاص</strong>. ما يستعير شي. يرسم كل بكسل بنفسه.
+                تكتب كود واحد بـ Dart. Flutter <strong>يرسم كل شي بنفسه</strong> بمحرك رسم خاص — ما يستعير أزرار من أحد ولا يمر عبر جسر.
               </div>
-              <div className="comparison-tag tag-fast">كود واحد</div>
-              <br />
+              <div style={{ marginTop: '12px', fontSize: '0.85em', color: 'var(--text-secondary)' }}>
+                ✅ كود واحد + أداء عالي + تطابق 100% على كل منصة
+                <br />
+                ❌ لغة Dart أقل شهرة من JavaScript
+              </div>
+              <div className="comparison-tag tag-fast" style={{ marginTop: '8px' }}>كود واحد</div>
               <div className="comparison-tag tag-fast" style={{ marginTop: '4px' }}>أداء عالي</div>
             </div>
           </div>
 
-          <div className="key-point">
-            <div className="key-point-label">🎯 النقطة الجوهرية</div>
-            <div className="key-point-text">
-              <strong>Flutter اختار فلسفة مختلفة عن الكل:</strong> بدل ما يستعير أزرار Android أو يمر عبر جسر (Bridge)،
-              Google صنعت محرك رسم كامل (Skia ثم Impeller) مبني بـ C++.
-              Flutter ياخذ "كنفس" فارغ من النظام ويرسم <strong>كل شيء بنفسه</strong>.
+          <div className="analogy-box" style={{ marginTop: '24px' }}>
+            <div className="analogy-label">وش الفرق عملياً؟</div>
+            <div className="analogy-text">
+              <strong>Native:</strong> مثل ما تطبخ أكلتين مختلفتين — وحدة بالفرن ووحدة على النار. كل وحدة حلوة بس تاخذ ضعف الوقت.
               <br /><br />
-              هذا يعني: <strong>تحكم مطلق بالمظهر + أداء عالي + تطبيق متطابق على كل منصة</strong>.
+              <strong>React Native (Bridge):</strong> مثل ما تعطي الطباخ تعليمات عبر الهاتف. كل أمر لازم يمر عبر "خط الهاتف" (الجسر) ويتأخر شوي.
+              <br /><br />
+              <strong>Flutter:</strong> مثل ما أنت الطباخ بنفسك في مطبخك الخاص — تتحكم بكل شي مباشرة بدون وسيط. سريع وتقدر تسوي أي شكل تبيه.
             </div>
           </div>
         </div>
 
-        {/* --- Section 2: The Three Layers --- */}
-        <div className="section">
+        {/* === SECTION 4: The Three Layers === */}
+        <div className="section" id="architecture">
           <div className="section-header">
-            <div className="section-number">2</div>
-            <h3 className="section-title">الطبقات الثلاث — هيكلية Flutter</h3>
+            <div className="section-number">4</div>
+            <h3 className="section-title">الطبقات الثلاث — هيكلية Flutter من الداخل</h3>
           </div>
 
           <div className="section-content">
+            <p>
+              الآن بعد ما فهمت <strong>وش Flutter ووش يسوي</strong>، خلنا نفتح الغطاء ونشوف كيف مبني من الداخل.
+            </p>
             <p>
               Flutter مبني على <strong>ثلاث طبقات</strong>، كل واحدة مسؤولة عن شيء محدد.
               اللي تحت يخدم اللي فوق. أنت كمبرمج تتعامل <strong>فقط مع الطبقة العليا</strong> (Framework)،
@@ -708,20 +1040,19 @@ export default function App() {
           <ArchitectureDiagram />
         </div>
 
-        {/* --- Section 3: Compilation --- */}
-        <div className="section">
+        {/* === SECTION 5: Compilation === */}
+        <div className="section" id="compilation">
           <div className="section-header">
-            <div className="section-number">3</div>
+            <div className="section-number">5</div>
             <h3 className="section-title">كيف يُترجم الكود — JIT vs AOT</h3>
           </div>
 
           <div className="section-content">
             <p>
-              لغة Dart عندها ميزة نادرة: تدعم <strong>نظامين للترجمة</strong> في نفس الوقت.
-              هذا ما هو عشوائي — كل نظام صُمم لحل مشكلة محددة.
+              لغة Dart (اللي تكتب بها كود Flutter) عندها ميزة نادرة: تدعم <strong>نظامين للترجمة</strong> في نفس الوقت.
             </p>
             <p>
-              <strong>السؤال المهم:</strong> ليش ما اختاروا نظام واحد بس؟
+              <strong>السؤال:</strong> ليش ما اختاروا نظام واحد بس؟
               لأن ما تحتاجه وقت التطوير (سرعة التجربة) <strong>مختلف تماماً</strong> عن ما تحتاجه وقت الإنتاج (سرعة الأداء).
             </p>
           </div>
@@ -729,13 +1060,13 @@ export default function App() {
           <CompilationFlow />
         </div>
 
-        {/* --- Section 4: Three Trees --- */}
+        {/* === SECTION 6: Three Trees === */}
         <ThreeTrees />
 
-        {/* --- Section 5: Putting it all together --- */}
+        {/* === SECTION 7: Big Picture === */}
         <div className="section">
           <div className="section-header">
-            <div className="section-number">5</div>
+            <div className="section-number">7</div>
             <h3 className="section-title">الصورة الكبيرة — كيف كل شي يترابط</h3>
           </div>
 
@@ -746,58 +1077,56 @@ export default function App() {
           </div>
 
           <div className="card card-accent-blue">
-            <div className="card-title">1️⃣ أنت تكتب كود Dart</div>
+            <div className="card-title">1️⃣ أنت تكتب كود Dart واحد</div>
             <div className="card-body">
-              تكتب Widgets تصف ما تريد رؤيته. مثلاً: <code>Container(color: Colors.red, width: 100)</code>
+              تكتب Widgets تصف ما تريد رؤيته. مثلاً: "أبي زر أحمر مكتوب عليه 'ارسل'". هالكود يعيش في طبقة الـ Framework.
             </div>
           </div>
 
           <div className="card card-accent-purple">
             <div className="card-title">2️⃣ Flutter يبني الأشجار الثلاث</div>
             <div className="card-body">
-              Widget Tree (الوصف) → Element Tree (الإدارة والمقارنة) → RenderObject Tree (الرسم الفعلي)
+              Widget Tree (الوصف) → Element Tree (المقارنة والقرارات) → RenderObject Tree (الرسم الفعلي)
             </div>
           </div>
 
           <div className="card card-accent-green">
             <div className="card-title">3️⃣ المحرك يرسم على الشاشة</div>
             <div className="card-body">
-              Skia/Impeller (المكتوب بـ C++) ياخذ تعليمات الرسم من RenderObject Tree ويرسمها بكسل ببكسل على الـ Surface (الكنفس) اللي جهزه الـ Embedder.
+              Skia/Impeller (في طبقة Engine) ياخذ تعليمات الرسم ويرسمها بكسل ببكسل على المساحة اللي جهزها الـ Embedder.
             </div>
           </div>
 
           <div className="card card-accent-orange">
-            <div className="card-title">4️⃣ تعدل الكود → Hot Reload</div>
+            <div className="card-title">4️⃣ الـ Embedder يوصل Flutter بالنظام</div>
             <div className="card-body">
-              JIT يترجم التغييرات فوراً، Flutter يبني Widget Tree جديدة، Element Tree يقارن ويحدث فقط ما تغير.
-              النتيجة تظهر خلال أقل من ثانية.
+              على Android يفتح Activity، على iOS يفتح UIViewController، على Web يستخدم Canvas — كلهم يعطون Flutter مساحة يرسم عليها.
             </div>
           </div>
 
           <div className="card card-accent-pink">
-            <div className="card-title">5️⃣ تبني للإنتاج → AOT</div>
+            <div className="card-title">5️⃣ النتيجة: تطبيق واحد في كل مكان</div>
             <div className="card-body">
-              Dart يتحول لكود آلة أصلي. ما فيه VM أو مترجم فوري. التطبيق يعمل بسرعة تطبيق Native حقيقي.
+              كود واحد → محرك رسم واحد → شكل متطابق على 6 منصات. هذا هو Flutter.
             </div>
           </div>
 
-          <div className="analogy-box" style={{ marginTop: '24px' }}>
-            <div className="analogy-label">ربط بخبرتك السابقة</div>
-            <div className="analogy-text">
-              <strong>بما إنك تعرف C++:</strong> تخيل إن Flutter مثل مكتبة SDL أو SFML —
-              ياخذ نافذة من النظام ويرسم عليها كل شيء بنفسه. لكن بدل ما تكتب أنت كود الرسم (draw calls)،
-              أنت تكتب "وصف" (Widgets) و Flutter يتكفل بالرسم.
+          <div className="key-point" style={{ marginTop: '24px' }}>
+            <div className="key-point-label">⚡ تحول ذهني مهم — Imperative vs Declarative</div>
+            <div className="key-point-text">
+              في C++ أنت معتاد تقول للكمبيوتر: <strong>"غيّر لون الزر → حرّكه لليسار → أظهر النص"</strong> (أسلوب أمري — Imperative).
               <br /><br />
-              <strong>بما إنك تعرف Python:</strong> فكر في Widgets مثل Dataclasses — كائنات بسيطة تحمل بيانات (وصف).
-              مثل ما Dataclass ما يعرف نفسه — Widget ما يرسم نفسه. شيء ثاني يقرأه ويرسمه.
+              في Flutter الموضوع مختلف: أنت <strong>توصف الحالة النهائية</strong> وخلاص. تقول: <strong>"أبي زر أحمر على اليسار مكتوب عليه كذا"</strong> (أسلوب تصريحي — Declarative). Flutter بنفسه يحسب وش تغير ويحدث الشاشة.
+              <br /><br />
+              <strong>ليش هذا مهم؟</strong> لأن هالتحول من "كيف أسوي" إلى "وش أبي" هو أكبر قفزة ذهنية بتواجهك. بس لما تتعود عليه — ما بترجع للأسلوب القديم أبداً، لأنه يختصر عليك كود ويقلل الأخطاء بشكل جنوني.
             </div>
           </div>
         </div>
 
-        {/* --- Quiz --- */}
+        {/* === Quiz === */}
         <Quiz />
 
-        {/* --- Next Phase --- */}
+        {/* === Next Phase === */}
         <div className="next-phase-banner">
           <h3>🎉 أنهيت المرحلة 0!</h3>
           <p>
@@ -812,4 +1141,3 @@ export default function App() {
     </div>
   )
 }
-
